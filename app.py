@@ -250,7 +250,6 @@ def request_maintenance():
     device_model = request.form.get('device_model')
     issue = request.form.get('issue')
     data["maintenance_requests"].append({"client_name": client_name, "device_model": device_model, "issue": issue})
-    app = app
     save_data(data)
     return redirect(url_for('home'))
 
