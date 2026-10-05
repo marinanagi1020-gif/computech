@@ -8,27 +8,31 @@ app.secret_key = 'computech_secret_key'
 DATA_FILE = 'computech_data.json'
 
 def load_data():
+    default_data = {
+        "services": [
+            {"title": "Laptop & PC Maintenance", "description": "Screen, keyboard, and hardware repairs."},
+            {"title": "Software & Updates", "description": "Original Windows, drivers, and setup."}
+        ],
+        "offers": [
+            {"title": "20% Discount", "description": "Free internal cleaning with hardware maintenance."}
+        ],
+        "reviews": [],
+        "maintenance_requests": []
+    }
     if not os.path.exists(DATA_FILE):
-        default_data = {
-            "services": [
-                {"title": "Laptop & PC Maintenance", "description": "Screen, keyboard, and hardware repairs."},
-                {"title": "Software & Updates", "description": "Original Windows, drivers, and setup."}
-            ],
-            "offers": [
-                {"title": "20% Discount", "description": "Free internal cleaning with hardware maintenance."}
-            ],
-            "reviews": [],
-            "maintenance_requests": []
-        }
-        with open(DATA_FILE, 'w', encoding='utf-8') as f:
-            json.dump(default_data, f, ensure_ascii=False, indent=4)
         return default_data
-    with open(DATA_FILE, 'r', encoding='utf-8') as f:
-        return json.load(f)
+    try:
+        with open(DATA_FILE, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception:
+        return default_data
 
 def save_data(data):
-    with open(DATA_FILE, 'w', encoding='utf-8') as f:
-        json.dump(data, f, ensure_ascii=False, indent=4)
+    try:
+        with open(DATA_FILE, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=4)
+    except Exception:
+        pass
 
 @app.route('/')
 def home():
